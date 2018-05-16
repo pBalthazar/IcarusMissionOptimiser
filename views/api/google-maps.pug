@@ -1,0 +1,146 @@
+extends ../layout
+
+block content
+  style.
+    #map {
+      width: 100%;
+      height: 500px;
+    }
+
+  .page-header
+    h2
+      i.fab.fa-google.fa-sm
+      | Google Maps API
+
+  .btn-group.btn-group-justified
+    a.btn.btn-primary(href='https://developers.google.com/maps/documentation/javascript/tutorial', target='_blank')
+      i.far.fa-check-square.fa-sm
+      | Getting Started
+    a.btn.btn-primary(href='https://console.developers.google.com/apis/dashboard', target='_blank')
+      i.fas.fa-laptop.fa-sm
+      | API Console
+
+  h3 Markers Example
+  
+
+  a.btn.btn-primary(target='_blank', onclick="onSelectType()")
+      i.fas.fa-laptop.fa-sm
+      | Select
+  a.btn.btn-primary(target='_blank', onclick="onLandType()")
+      i.fas.fa-laptop.fa-sm
+      | Land
+  a.btn.btn-primary(target='_blank', onclick="onWaypointType()")
+      i.fas.fa-laptop.fa-sm
+      | Waypoint
+  a.btn.btn-primary(target='_blank', onclick="onTakeoffType()")
+      i.fas.fa-laptop.fa-sm
+      | TakeOff
+  a.btn.btn-primary(target='_blank', onclick="onChargeType()")
+      i.fas.fa-laptop.fa-sm
+      | Charge
+
+  #map
+
+  script.
+    self = this;
+    var markerList = [];
+    var flightPath;
+    var map;
+
+    var actionMapType = "select";
+
+    function onSelectType(){
+      console.log("select");
+      actionMapType = "select";
+      self.map.set('draggableCursor', '');
+    }
+
+    function onChargeType(){
+      console.log("charge");
+      actionMapType = "charge";
+      self.map.set('draggableCursor', 'crosshair');
+    }
+
+    function onMapClick(event) {
+      var lat = event.latLng.lat();
+      var long = event.latLng.lng();
+      var myLatLng = {lat: lat, lng: long};
+
+      console.log("click: Lat: " + lat + " Long: " + long);
+
+      if(actionMapType != "select"){
+        self.addMarkerOnMap(myLatLng);
+      }
+    }
+
+    function onMarkerClick(marker) {
+      console.log("onMarkerClick");
+    }
+
+    function onMarkerDrag(marker) {
+      console.log("OnMarkerDrag");
+      refreshPathDrawing();
+    }
+
+    function addMarkerOnMap(myLatLng) {
+      var marker = new google.maps.Marker({
+          position: myLatLng,
+          map: self.map,
+          title: 'Hello World!',
+          label: String(self.markerList.length+1),
+          draggable: true
+        });
+
+      marker.addListener('click', function(){
+        self.onMarkerClick(this);
+      });
+
+      marker.addListener('drag', function(){
+        self.onMarkerDrag(this);
+      });
+
+      self.markerList.push(marker);
+
+      refreshPathDrawing(map);
+    }
+
+    function refreshPathDrawing() {
+      if (flightPath != null) {
+         flightPath.setMap(null); 
+      }
+
+      var markerListCoordinates = [];
+
+      markerList.forEach(function(element) {
+        markerListCoordinates.push({lat: element.getPosition().lat(), lng: element.getPosition().lng()});
+      });
+
+      flightPath = new google.maps.Polyline({
+        path: markerListCoordinates,
+        geodesic: true,
+        strokeColor: '#FF0000',
+        strokeOpacity: 1.0,
+        strokeWeight: 2
+      });
+
+      flightPath.setMap(self.map);
+    }
+
+    function initMap() {
+      map = new google.maps.Map(document.getElementById('map'), {
+        center: { lat: 36.0907578, lng: -119.5948303 },
+        zoom: 7
+      });
+
+      map.addListener('center_changed', function() {
+        console.log("center_changed");
+      });
+
+      google.maps.event.addListener(map, 'click', function(event){
+        self.onMapClick(event);
+      });
+
+      self.map = map;
+    }
+
+  script(async defer src=`https://maps.googleapis.com/maps/api/js?key=${google_map_api_key}&callback=initMap`)

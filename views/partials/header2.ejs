@@ -1,0 +1,102 @@
+<meta charset="UTF-8">
+<title>Super Awesome</title>
+
+<!-- CSS (load bootstrap from a CDN) -->
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+
+
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/">ICARUS</a>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li class=(title === 'Home') ? 'active' : undefined><a href="/">Home</a></li>
+        <%if (user) { %>
+          <li class=(title === 'API Examples') ? 'active' : undefined>
+            <a href="/api">API Examples</a>
+          </li>
+          <li class=(title === 'Mission Planning') ? 'active' : undefined>
+            <a href="/missionPlanning">Mission Planning</a>
+          </li>
+          <li><a href="/status">Server status</a></li>          
+        <% } %>
+        <li class=(title === 'Contact') ? 'active' : undefined><a href="/contact">Contact</a></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <% if(!user){ %>
+          <li class=(title === 'Login') ? 'active' : undefined>
+            <a href="/login">Login</a>
+          </li>
+          <li class=(title === 'Create Account') ? 'active' : undefined>
+              <a href="/signup">Create Account</a>
+            </li>
+        <% } else{ %>  
+          <li id="userMenu" class="dropdown">
+            <a class="dropdown-toggle" href="#", data-toggle='dropdown'>
+                <% if(user.profile.picture){ %>
+                  <img src=user.profile.picture>
+                <% } else{ %>
+                  <img src=user.gravatar(60)> 
+                <% } %>
+                <span><%= user.profile.name || user.email || user.id %></span>
+                <i class="caret"></i>
+            </a>
+            <ul id="userDropdown" class="dropdown-menu">
+              <li><a href="/account">My Account</a></li>
+              <li class="divider"></li>
+              <li><a href="/logout">Logout</a></li> 
+            </ul>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.getElementById("userMenu").onmouseover = function() {menuMouseOver()};
+  document.getElementById("userMenu").onmouseout = function() {menuMouseOut()};
+
+  function menuMouseOver() {
+      document.getElementById("userDropdown").style.display  = "block";
+  }
+
+  function menuMouseOut() {
+      document.getElementById("userDropdown").style.display  = "none";
+  }
+</script>
+<!-- 
+.navbar.navbar-default.navbar-fixed-top
+  .container
+    .navbar-header
+      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+        span.sr-only Toggle navigation
+        span.icon-bar
+        span.icon-bar
+        span.icon-bar
+      a.navbar-brand(href='/')
+        | ICARUS
+    .collapse.navbar-collapse
+      ul.nav.navbar-nav.navbar-right
+        if !user
+          li(class=(title === 'Login') ? 'active' : undefined)
+            a(href='/login') Login
+          li(class=(title === 'Create Account') ? 'active' : undefined)
+            a(href='/signup') Create Account
+        else
+          li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
+            a.dropdown-toggle(href='#', data-toggle='dropdown')
+              if user.profile.picture
+                img(src=user.profile.picture)
+              else
+                img(src=user.gravatar(60))
+              span= user.profile.name || user.email || user.id
+              i.caret
+            ul.dropdown-menu
+              li
+                a(href='/account') My Account
+              li.divider
+              li
+                a(href='/logout') Logout -->
