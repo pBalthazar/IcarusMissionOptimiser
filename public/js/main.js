@@ -1,5 +1,7 @@
-$(document).ready(() => {
 
-  // Place JavaScript code here...
+  // console.log("hihihi");
 
-});
+  // function test1() {
+  //   self = this;
+  //   self.var1 = "test";
+  // }

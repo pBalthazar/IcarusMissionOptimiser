@@ -1,17 +1,16 @@
-
 <html lang="en">
 
-  <head class="container-fluid">
-      <% include ../partials/header2 %>
-  </head>
-
+<head class="container-fluid">
+  <% include ../partials/header2 %>
+</head>
+<% include ../config %>
   <div class="page-header container-fluid">
     <h2>
       <i class="fab fa-google fa-sm">Google Maps API</i>
     </h2>
   </div>
 
-<!-- <div class="btn-group btn-group-justified">
+  <!-- <div class="btn-group btn-group-justified">
   <a class="btn btn-primary" href="https://developers.google.com/maps/documentation/javascript/tutorial", target='_blank'>
     <i class="far fa-check-square fa-sm">Getting Started</i>
   </a>
@@ -19,26 +18,26 @@
     <i class="fas fa-laptop fa-sm">API Console</i>
   </a>
 </div> -->
-<div class="container">
-  <a class="btn btn-primary" target='_blank', onclick="onSelectType()">
+  <div class="container">
+    <a class="btn btn-primary" target='_blank' , onclick="onSelectType()">
     <i class="fas fa-laptop fa-sm">Select</i>
   </a>
-  <a class="btn btn-primary" target='_blank', onclick="onLandType()">
+    <a class="btn btn-primary" target='_blank' , onclick="onLandType()">
       <i class="fas fa-laptop fa-sm">Land</i>
   </a>
-  <a class="btn btn-primary" target='_blank', onclick="onTakeoffType()">
+    <a class="btn btn-primary" target='_blank' , onclick="onTakeoffType()">
       <i class="fas fa-laptop fa-sm">Takeoff</i>
   </a>
-  <a class="btn btn-primary" target='_blank', onclick="onWaypointType()">
+    <a class="btn btn-primary" target='_blank' , onclick="onWaypointType()">
       <i class="fas fa-laptop fa-sm">Waypoint</i>
   </a>
-  <a class="btn btn-primary" target='_blank', onclick="onChargeType()">
+    <a class="btn btn-primary" target='_blank' , onclick="onChargeType()">
       <i class="fas fa-laptop fa-sm">Charge</i>
   </a>
-</div>
+  </div>
 
-<div class="container">
-  <div class="row">
+  <div class="container">
+    <div class="row">
       <div class="col-sm-9">
         <div id="map" style="width:100%;height:500px;"></div>
       </div>
@@ -46,69 +45,68 @@
         <div class="panel panel-default">
           <div class="panel-heading">Panel with panel-default class</div>
           <div class="panel-body">
-              <!-- https://www.w3schools.com/bootstrap/bootstrap_forms_inputs2.asp -->
-              <form class="form-horizontal">
-                  <div class="form-group">
-                    <label class="col-sm-3 control-label">Type</label>
-                    <div class="col-sm-9">
-                      <input class="form-control" id="markerType" type="text" >
-                    </div>
-                  </div>
-                  <div class="form-group">
-                      <label class="col-sm-3 control-label">Position</label>
-                      <div class="col-sm-9">
-                        <input class="form-control" id="markerPosition" type="text">
-                      </div>
-                    </div>
-              </form>
+            <!-- https://www.w3schools.com/bootstrap/bootstrap_forms_inputs2.asp -->
+            <form class="form-horizontal">
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Type</label>
+                <div class="col-sm-9">
+                  <input class="form-control" id="markerType" type="text">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="col-sm-3 control-label">Position</label>
+                <div class="col-sm-9">
+                  <input class="form-control" id="markerPosition" type="text">
+                </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
+    </div>
   </div>
-</div>
 
 
 
-<script src="js/views/missionPlanner/missionPlanner.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_drjnQ3ABYXMIUW-O4_mWLAepYPoCgQQ"></script>
+  <script src="js/views/missionPlanner/missionPlanner.js"></script>
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_drjnQ3ABYXMIUW-O4_mWLAepYPoCgQQ"></script>
 
-<script defer>
+  <script defer>
+    function View() {
+      let self = this;
 
-  function View() {
-    self = this;
-
-    self.update = function(newMarkerTypeValue, newMarkerPositionValue) {
-      if(newMarkerTypeValue) {
-        document.getElementById('markerType').value = newMarkerTypeValue;
-      }
-      if(newMarkerPositionValue) {
-        document.getElementById('markerPosition').value = newMarkerPositionValue.lat + ", " + newMarkerPositionValue.lng;
+      self.update = function (newMarkerTypeValue, newMarkerPositionValue) {
+        if (newMarkerTypeValue) {
+          document.getElementById('markerType').value = newMarkerTypeValue;
+        }
+        if (newMarkerPositionValue) {
+          document.getElementById('markerPosition').value = newMarkerPositionValue.lat + ", " + newMarkerPositionValue.lng;
+        }
       }
     }
-  }
 
-  var mp = new MissionPlanner(new View(), document.getElementById('map'));
+    var mp = new MissionPlanner(new View(), document.getElementById('map'));
 
-  mp.initMap();
+    mp.initMap();
 
-  function onSelectType(){
-    mp.onSelectType();
-  }
+    function onSelectType() {
+      mp.onSelectType();
+    }
 
-  function onLandType(){
-    mp.onLandType();
-  }
+    function onLandType() {
+      mp.onLandType();
+    }
 
-  function onTakeoffType(){
-    mp.onTakeoffType();
-  }
+    function onTakeoffType() {
+      mp.onTakeoffType();
+    }
 
-  function onWaypointType(){
-    mp.onWaypointType();
-  }
+    function onWaypointType() {
+      mp.onWaypointType();
+    }
 
-  function onChargeType(){
-    mp.onChargeType();
-  }
+    function onChargeType() {
+      mp.onChargeType();
+    }
 
-</script>
+  </script>
