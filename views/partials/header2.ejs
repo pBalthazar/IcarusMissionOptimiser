@@ -1,12 +1,9 @@
 <meta charset="UTF-8">
 <title>Super Awesome</title>
 
-<!-- CSS (load bootstrap from a CDN) -->
-<!-- <script type="text/javascript" src="javascript.js"></script> -->
-<script src='/js/lib/jquery-3.1.1.min.js'></script>
-<script src='/js/lib/bootstrap.min.js'></script>
 <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<link rel="stylesheet" href="css/style.css">
 
 <div class="navbar navbar-default navbar-fixed-top">
   <div class="container">
@@ -58,6 +55,12 @@
   </div>
 </div>
 
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js" data-main="/js/config"></script>
+
+<!-- <script data-main="/js/config" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.js"></script>-->
+<script src='/js/lib/jquery-3.1.1.min.js'></script>
+<script src='/js/lib/bootstrap.min.js'></script>
+
 <script>
   document.getElementById("userMenu").onmouseover = function() {menuMouseOver()};
   document.getElementById("userMenu").onmouseout = function() {menuMouseOut()};
@@ -70,36 +73,3 @@
       document.getElementById("userDropdown").style.display  = "none";
   }
 </script>
-<!-- 
-.navbar.navbar-default.navbar-fixed-top
-  .container
-    .navbar-header
-      button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
-        span.sr-only Toggle navigation
-        span.icon-bar
-        span.icon-bar
-        span.icon-bar
-      a.navbar-brand(href='/')
-        | ICARUS
-    .collapse.navbar-collapse
-      ul.nav.navbar-nav.navbar-right
-        if !user
-          li(class=(title === 'Login') ? 'active' : undefined)
-            a(href='/login') Login
-          li(class=(title === 'Create Account') ? 'active' : undefined)
-            a(href='/signup') Create Account
-        else
-          li.dropdown(class=(title === 'Account Management') ? 'active' : undefined)
-            a.dropdown-toggle(href='#', data-toggle='dropdown')
-              if user.profile.picture
-                img(src=user.profile.picture)
-              else
-                img(src=user.gravatar(60))
-              span= user.profile.name || user.email || user.id
-              i.caret
-            ul.dropdown-menu
-              li
-                a(href='/account') My Account
-              li.divider
-              li
-                a(href='/logout') Logout -->

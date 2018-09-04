@@ -15,6 +15,7 @@
     "lint": "eslint **/*.js"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.1.0",
     "@octokit/rest": "^15.2.6",
     "bcrypt-nodejs": "^0.0.3",
     "body-parser": "^1.18.2",
@@ -57,6 +58,7 @@
     "passport-twitter": "^1.0.4",
     "paypal-rest-sdk": "^1.8.1",
     "pug": "^2.0.3",
+    "python-shell": "^0.5.0",
     "request": "^2.85.0",
     "requirejs": "^2.3.5",
     "stripe": "^5.6.1",

@@ -144,7 +144,7 @@ app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userControl
  * Mission Planning routes.
  */
 app.get('/missionPlanning', passportConfig.isAuthenticated, missionPlannerController.getMissionPlanner);
-
+app.get('/python', passportConfig.isAuthenticated, missionPlannerController.executePython);
 /**
  * API examples routes.
  */

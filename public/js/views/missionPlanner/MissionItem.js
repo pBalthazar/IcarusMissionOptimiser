@@ -1,4 +1,6 @@
-this.MissionItem = function (map, newType, newPosition, newIndex) {
+define(function(){
+ return function MissionItem(map, newType, newPosition, newIndex) {
+     
     self = this;
     var instance = this;
     var observers = [];
@@ -12,34 +14,39 @@ this.MissionItem = function (map, newType, newPosition, newIndex) {
         title: type,
         label: String(index),
         draggable: true
-    })
-
-    marker.addListener('click', function () {
-        observers.forEach(function (obs) {
-            if (obs.onMissionItemClick) {
+        })
+    
+    marker.addListener('click', function(){
+        observers.forEach(function(obs) {
+            if(obs.onMissionItemClick) {
                 obs.onMissionItemClick(instance);
             }
         });
     });
 
-    marker.addListener('drag', function (event) {
-        position = { lat: event.latLng.lat(), lng: event.latLng.lng() };
-        observers.forEach(function (obs) {
-            if (obs.onMissionItemDrag) {
+    marker.addListener('drag', function(event){
+        position = {lat: event.latLng.lat(), lng: event.latLng.lng()};
+        observers.forEach(function(obs) {
+            if(obs.onMissionItemDrag) {
                 obs.onMissionItemDrag(instance);
             }
         });
     });
 
-    self.register = function (obs) {
+    self.register = function(obs) {
         observers.push(obs);
     }
 
-    self.getTitle = function () {
+    self.getTitle = function() {
         return type;
     }
 
-    self.getPosition = function () {
+    self.getPosition = function() {
         return position;
     }
+
+    self.remove = function () {
+        marker.setMap(null);
+    }
 }
+});

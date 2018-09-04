@@ -3,75 +3,80 @@
 <head class="container-fluid">
   <% include ../partials/header2 %>
 </head>
-<% include ../config %>
-  <div class="page-header container-fluid">
-    <h2>
-      <i class="fab fa-google fa-sm">Google Maps API</i>
-    </h2>
-  </div>
+<div class="page-header container-fluid">
+  <h2>
+    <i class="fab fa-google fa-sm">Google Maps API</i>
+  </h2>
+</div>
+<div class="container">
+    <label for="importFile" class="custom-file-upload">
+        <i class="fa fa-cloud-upload"></i> Custom Upload
+    </label>
+    <input id="importFile" type="file" accept=".plan"/>
+</div>
 
-  <!-- <div class="btn-group btn-group-justified">
-  <a class="btn btn-primary" href="https://developers.google.com/maps/documentation/javascript/tutorial", target='_blank'>
-    <i class="far fa-check-square fa-sm">Getting Started</i>
-  </a>
-  <a class="btn btn-primary" href="https://console.developers.google.com/apis/dashboard", target='_blank'>
-    <i class="fas fa-laptop fa-sm">API Console</i>
-  </a>
-</div> -->
-  <div class="container">
-    <a class="btn btn-primary" target='_blank' , onclick="onSelectType()">
+<div class="container">
+  <a class="btn btn-primary" target='_blank' , id="onSelectType">
     <i class="fas fa-laptop fa-sm">Select</i>
   </a>
-    <a class="btn btn-primary" target='_blank' , onclick="onLandType()">
-      <i class="fas fa-laptop fa-sm">Land</i>
+  <a class="btn btn-primary" target='_blank' , id="onLandType">
+      <i class="fas fa-plane-arrival fa-sm">Land</i>
   </a>
-    <a class="btn btn-primary" target='_blank' , onclick="onTakeoffType()">
+  <a class="btn btn-primary" target='_blank' , id="onTakeoffType">
       <i class="fas fa-laptop fa-sm">Takeoff</i>
   </a>
-    <a class="btn btn-primary" target='_blank' , onclick="onWaypointType()">
+  <a class="btn btn-primary" target='_blank' , id="onWaypointType">
       <i class="fas fa-laptop fa-sm">Waypoint</i>
   </a>
-    <a class="btn btn-primary" target='_blank' , onclick="onChargeType()">
+  <a class="btn btn-primary" target='_blank' , id="onChargeType">
       <i class="fas fa-laptop fa-sm">Charge</i>
   </a>
-  </div>
+</div>
 
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-9">
-        <div id="map" style="width:100%;height:500px;"></div>
-      </div>
-      <div class="col-sm-3">
-        <div class="panel panel-default">
-          <div class="panel-heading">Panel with panel-default class</div>
-          <div class="panel-body">
-            <!-- https://www.w3schools.com/bootstrap/bootstrap_forms_inputs2.asp -->
-            <form class="form-horizontal">
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Type</label>
-                <div class="col-sm-9">
-                  <input class="form-control" id="markerType" type="text">
-                </div>
+<div class="container">
+  <div class="row">
+    <div class="col-sm-9">
+      <div id="map" style="width:100%;height:500px;"></div>
+    </div>
+    <div class="col-sm-3">
+      <div class="panel panel-default">
+        <div class="panel-heading">Informations</div>
+        <div class="panel-body">
+          <form class="form-horizontal">
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Type</label>
+              <div class="col-sm-9">
+                <input class="form-control" id="markerType" type="text">
               </div>
-              <div class="form-group">
-                <label class="col-sm-3 control-label">Position</label>
-                <div class="col-sm-9">
-                  <input class="form-control" id="markerPosition" type="text">
-                </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Position</label>
+              <div class="col-sm-9">
+                <input class="form-control" id="markerPosition" type="text">
               </div>
-            </form>
-          </div>
+            </div>
+            <div class="form-group">
+              <div class="col-sm-6">
+                  <button id ="onRemoveMissionItem" type="button" class="btn">Remove</button>
+              </div>
+              <div class="col-sm-6">
+                <button id ="onUpdateMissionItem" type="button" class="btn">Update</button>
+            </div>
+            </div>
+          </form>
         </div>
       </div>
     </div>
   </div>
+</div>
 
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_drjnQ3ABYXMIUW-O4_mWLAepYPoCgQQ"></script>
+<script>
+  require([
+    'jquery',
+    'js/views/missionPlanner/missionPlanner.js'
+  ], function ($, MissionPlanner) {
 
-
-  <script src="js/views/missionPlanner/missionPlanner.js"></script>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC_drjnQ3ABYXMIUW-O4_mWLAepYPoCgQQ"></script>
-
-  <script defer>
     function View() {
       let self = this;
 
@@ -89,24 +94,61 @@
 
     mp.initMap();
 
-    function onSelectType() {
+    //setting click event
+    function onRemoveMissionItem (event) {
+      mp.onRemoveMissionItem();
+    }
+
+    function onUpdateMissionItem (event) {
+    }
+    
+
+    document.getElementById('onRemoveMissionItem').addEventListener('click', onRemoveMissionItem, false);
+
+    function handleFileSelect(event) {
+      var file = event.target.files && event.target.files.length > 0 ?  event.target.files[0]: null;
+
+      if (file) {
+        var reader = new FileReader();
+        reader.onload = function() {
+          var text = reader.result;
+          if (reader.result) {
+            var jsonOutput = JSON.parse(reader.result);
+            if (jsonOutput) {
+              mp.importMission(jsonOutput);
+            }
+          }
+        };
+        reader.readAsText(file);
+      }
+    }
+
+    document.getElementById('importFile').addEventListener('change', handleFileSelect, false);
+
+    $('#onImport').on('click', function (event) {
+      // var selectedFile = document.getElementById('importFile').files[0];
+      // debugger;
+    });
+
+    $('#onSelectType').on('click', function (event) {
       mp.onSelectType();
-    }
+    });
 
-    function onLandType() {
+    $('#onLandType').on('click', function (event) {
       mp.onLandType();
-    }
+    });
 
-    function onTakeoffType() {
+    $('#onTakeoffType').on('click', function (event) {
       mp.onTakeoffType();
-    }
+    });
 
-    function onWaypointType() {
+    $('#onWaypointType').on('click', function (event) {
       mp.onWaypointType();
-    }
+    });
 
-    function onChargeType() {
+    $('#onChargeType').on('click', function (event) {
       mp.onChargeType();
-    }
+    });
+  });
 
-  </script>
+</script>
